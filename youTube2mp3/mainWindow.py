@@ -4,6 +4,17 @@ from tkinter import filedialog
 from tkinter import ttk
 import threading
 
+
+def listen_for_result():
+
+    if downloading_end[0]:
+        text_url.configure(state="normal")
+        button_download.configure(state="normal")
+        progress["value"] = 0
+    else:
+        root.after(100, listen_for_result)
+
+
 def downloadinginfo(bytes_in_stream,
                     total_bytes_downloaded,
                     ratio,
@@ -11,6 +22,7 @@ def downloadinginfo(bytes_in_stream,
                     eta):
     progress["maximum"] = bytes_in_stream
     progress["value"] = total_bytes_downloaded
+
 
 def download():
 
@@ -20,13 +32,19 @@ def download():
         return
     destination = f.name
     f.close()
+    text_url.configure(state="disabled")
+    button_download.configure(state="disabled")
     t = threading.Thread(target=yt2mp3.download, args=(text_url.get("1.0", "end-1c"),
                                                        destination,
                                                        320,
-                                                       downloadinginfo))
-
+                                                       downloadinginfo,
+                                                       downloading_end))
+    downloading_end[0] = False
+    root.after(100, listen_for_result)
     t.start()
 
+
+downloading_end = [False]
 root = tk.Tk()
 root.title("YouTube2mp3")
 root.geometry("400x200+300+300")

@@ -10,7 +10,7 @@ class YouTube2mp3:
         self.audio_transcode = audiotranscode.AudioTranscode()
         self.tmp_file = "tmp."
 
-    def download(self, url, destination_path, bitrate, callback):
+    def download(self, url, destination_path, bitrate, callback, end_flag):
 
         video = pafy.new(url)
         best_audio = video.getbestaudio(preftype="m4a")
@@ -24,3 +24,4 @@ class YouTube2mp3:
             print('Unsupported audio format')
             os.remove(destination_path + self.mp3)
         os.remove(self.tmp_file + best_extension)
+        end_flag[0] = True
