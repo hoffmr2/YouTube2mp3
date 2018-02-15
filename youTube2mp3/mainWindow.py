@@ -47,16 +47,17 @@ def download():
 downloading_end = [False]
 root = tk.Tk()
 root.title("YouTube2mp3")
-root.geometry("400x200+300+300")
+root.geometry("400x70+300+300")
 
 text_url = tk.Text(root, height=1, width=30)
 text_url.pack(pady=8)
 button_download = tk.Button(root,
                             text="Download",
                             command=download)
+button_download.pack(side=tk.RIGHT)
 button_download.place(y=5, x=330)
 
-progress = ttk.Progressbar(root, orient="horizontal", length=200, mode="determinate")
+progress = ttk.Progressbar(root, orient="horizontal", length=245, mode="determinate")
 progress.pack()
-
+root.resizable(width=False, height=False)
 root.mainloop()
